@@ -51,14 +51,14 @@ export default function AskMeAnythingPage() {
 
         <div className="not-prose mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">电商开发</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">跨境电商技术选型、自动化爬虫、表格清单平台构建、系统架构设计等问题</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -67,14 +67,14 @@ export default function AskMeAnythingPage() {
           </div>
 
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">AI 视觉设计</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">AI 定制化视觉产品、设计系统构建、品牌视觉优化、用户体验提升等方面的建议</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -83,14 +83,14 @@ export default function AskMeAnythingPage() {
           </div>
 
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">自动化专家</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">流程自动化、效率提升、工作流优化、工具选型与集成，让业务运转更加高效</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -99,14 +99,14 @@ export default function AskMeAnythingPage() {
           </div>
 
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">Google Ads 运营</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">广告投放策略、效果优化、转化提升、预算分配、跨境营销等实操建议</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -115,14 +115,14 @@ export default function AskMeAnythingPage() {
           </div>
 
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">跨境电商</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">跨境平台选择、市场分析、产品定位、运营策略、物流与供应链优化等问题</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -131,14 +131,14 @@ export default function AskMeAnythingPage() {
           </div>
 
           <div className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50 hover:scale-[1.02]">
-            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400">
+            <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
               </svg>
             </div>
             <h3 className="mb-2 text-xl font-bold">其他咨询</h3>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">创业建议、团队管理、产品战略、职业规划、技术选型等其他专业问题</p>
-            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300">
+            <a href="#calendly-embed" className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               预约此项
               <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -159,7 +159,7 @@ export default function AskMeAnythingPage() {
                     30 分钟
                   </th>
                   <th className="relative w-1/2 border-b border-zinc-200 bg-zinc-50 px-6 py-4 text-left font-medium text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-200">
-                    <span className="absolute -top-px right-4 rounded-md bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">推荐套餐</span>
+                    <span className="absolute -top-px right-4 rounded-md bg-teal-600 px-2 py-0.5 text-xs font-medium text-white">推荐套餐</span>
                     60 分钟
                   </th>
                 </tr>
@@ -179,7 +179,7 @@ export default function AskMeAnythingPage() {
             </table>
           </div>
           <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
-            <a href="#faq" className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+            <a href="#faq" className="inline-flex items-center text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300">
               查看更多常见问题 →
             </a>
           </p>
@@ -210,17 +210,17 @@ export default function AskMeAnythingPage() {
         <div className="not-prose mb-6">
           <ol className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <li className="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/50">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">1</div>
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">1</div>
               <h3 className="mb-1 text-lg font-medium">选择咨询主题</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">从上方卡片中选择你需要的咨询主题</p>
             </li>
             <li className="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/50">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">2</div>
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">2</div>
               <h3 className="mb-1 text-lg font-medium">完成支付</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">扫码完成支付，保留支付凭证</p>
             </li>
             <li className="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/50">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">3</div>
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">3</div>
               <h3 className="mb-1 text-lg font-medium">选择时间</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">在下方日历中选择合适的咨询时间</p>
             </li>
