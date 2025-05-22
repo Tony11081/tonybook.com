@@ -54,18 +54,5 @@ async function beforeAuthMiddleware(req: NextRequest) {
 
 export default authMiddleware({
   beforeAuth: beforeAuthMiddleware,
-  publicRoutes: [
-    '/',
-    '/studio(.*)',
-    '/api(.*)',
-    '/blog(.*)',
-    '/confirm(.*)',
-    '/projects',
-    '/guestbook',
-    '/newsletters(.*)',
-    '/about',
-    '/rss',
-    '/feed',
-    '/ama',
-  ],
+  publicRoutes: ['/(.*)', '/api(.*)', '/studio(.*)'],
 })

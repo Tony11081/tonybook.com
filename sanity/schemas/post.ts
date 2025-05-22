@@ -23,6 +23,8 @@ export const Post = z.object({
   }),
   publishedAt: z.string(),
   description: z.string(),
+  metaDescription: z.string().optional(),
+  keywords: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
   body: z.any(),
   readingTime: z.number(),
@@ -85,6 +87,25 @@ export default defineType({
       type: 'text',
       rows: 3,
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Meta Description',
+      description: '用于SEO和社交媒体分享 (建议150-160字符)',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => 
+        Rule.max(160).warning('Meta Description 应保持在160字符以内以获得最佳SEO效果'),
+    }),
+    defineField({
+      name: 'keywords',
+      title: '关键词',
+      description: '用于SEO的关键词列表，每个关键词会增加搜索引擎发现率',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
     }),
     defineField({
       name: 'body',

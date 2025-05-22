@@ -33,6 +33,8 @@ export const getLatestBlogPostsQuery = ({
     "slug": slug.current,
     "categories": categories[]->title,
     description,
+    metaDescription,
+    keywords,
     publishedAt,
     readingTime,
     mainImage {
@@ -57,6 +59,8 @@ export const getBlogPostQuery = groq`
     "slug": slug.current,
     "categories": categories[]->title,
     description,
+    metaDescription,
+    keywords,
     publishedAt,
     readingTime,
     mood,

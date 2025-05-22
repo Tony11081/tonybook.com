@@ -18,14 +18,15 @@ export const generateMetadata = async ({
     notFound()
   }
 
-  const { title, description, mainImage } = post
+  const { title, description, metaDescription, keywords, mainImage } = post
 
   return {
     title,
-    description,
+    description: metaDescription || description,
+    keywords: keywords || undefined,
     openGraph: {
       title,
-      description,
+      description: metaDescription || description,
       images: [
         {
           url: mainImage.asset.url,
@@ -40,10 +41,10 @@ export const generateMetadata = async ({
         },
       ],
       title,
-      description,
+      description: metaDescription || description,
       card: 'summary_large_image',
-      site: '@thecalicastle',
-      creator: '@thecalicastle',
+      site: '@Tony11081',
+      creator: '@Tony11081',
     },
   } satisfies Metadata
 }
