@@ -77,24 +77,6 @@ export default function BlogPage() {
         </div>
       </section>
       
-      {/* 订阅表单 */}
-      <div className="my-16 max-w-3xl mx-auto rounded-xl bg-gradient-to-r from-zinc-50 to-zinc-100 dark:from-zinc-900/50 dark:to-zinc-800/50 p-6 sm:p-8 border border-zinc-200 dark:border-zinc-800">
-        <div className="text-center">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">订阅获取跨境电商与AI视觉最新动态</h3>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-4">独家干货、案例分析、工具推荐，助你领先一步</p>
-          <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="你的邮箱地址"
-              className="flex-1 px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            />
-            <button className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-medium rounded-lg transition-colors">
-              立即订阅
-            </button>
-          </div>
-        </div>
-      </div>
-      
       <div className="relative">
         {/* 阅读进度条 - 通过JS实现 */}
         <div id="reading-progress" className="fixed top-0 left-0 h-1 bg-zinc-800 z-50" style={{ width: '0%' }}></div>
