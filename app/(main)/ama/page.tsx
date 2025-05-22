@@ -1,10 +1,7 @@
-import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 
 import { RichLink } from '~/components/links/RichLink'
 import { Container } from '~/components/ui/Container'
-
-import AlipayQR from './alipay-qr.jpg'
 
 const title = '一对一咨询'
 const description =
@@ -190,7 +187,11 @@ export default function AskMeAnythingPage() {
 
         <p className="flex justify-center md:block md:justify-start">
           <span className="inline-flex flex-col items-center">
-            <Image src={AlipayQR} alt="" className="w-44 dark:brightness-90" />
+            <img 
+              src="/qr-alipay.png" 
+              alt="支付宝付款码" 
+              className="w-44 dark:brightness-90" 
+            />
             <span className="mt-1 text-sm font-medium">支付宝二维码</span>
           </span>
         </p>
