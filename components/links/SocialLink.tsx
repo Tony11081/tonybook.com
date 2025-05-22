@@ -9,9 +9,11 @@ import {
   BilibiliIcon,
   GitHubIcon,
   type IconProps,
+  LinkedInIcon,
   MailIcon,
   TelegramIcon,
   TwitterIcon,
+  WeChatIcon,
   YouTubeIcon,
 } from '~/assets'
 import { Tooltip } from '~/components/ui/Tooltip'
@@ -25,6 +27,8 @@ type Platform =
   | 'bilibili'
   | 'mail'
   | 'rss'
+  | 'linkedin'
+  | 'wechat'
 type PlatformInfo = {
   icon: IconType
   platform: Platform
@@ -54,6 +58,8 @@ const iconMapper: { [key: string]: PlatformInfo } = {
   },
   '(?:mailto:)': { icon: MailIcon, platform: 'mail', label: '邮箱地址' },
   '(?:feed.xml)': { icon: AtomIcon, platform: 'rss', label: 'RSS 订阅' },
+  '(?:linkedin.com)': { icon: LinkedInIcon, platform: 'linkedin', label: 'LinkedIn' },
+  '(?:mp.weixin.qq.com)': { icon: WeChatIcon, platform: 'wechat', label: '微信公众号' },
 }
 
 function getIconForUrl(url: string): PlatformInfo | undefined {
