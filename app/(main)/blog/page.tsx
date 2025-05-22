@@ -1,5 +1,4 @@
 import Balancer from 'react-wrap-balancer'
-import { useState } from 'react'
 
 import { SocialLink } from '~/components/links/SocialLink'
 import { Container } from '~/components/ui/Container'
@@ -28,7 +27,7 @@ export default function BlogPage() {
   return (
     <Container className="mt-16 sm:mt-24">
       {/* 添加客户端脚本 */}
-      <script src="/app/(main)/blog/page-scripts.js" async></script>
+      <script src="/js/blog-scripts.js" async></script>
       
       <header className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl text-center">

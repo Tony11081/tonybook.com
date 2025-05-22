@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 // 这里可以连接到你的 CMS 或 Sanity 查询来获取实际的精选文章

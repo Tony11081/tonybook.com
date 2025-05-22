@@ -5,8 +5,6 @@ import { RichLink } from '~/components/links/RichLink'
 import { Container } from '~/components/ui/Container'
 
 import AlipayQR from './alipay-qr.jpg'
-import ThankYouLetterScreenshot1 from './Arc aagD26w9@2x.png'
-import ThankYouLetterScreenshot2 from './Arc ynleUdHy@2x.png'
 
 const title = '一对一咨询'
 const description =
@@ -245,7 +243,7 @@ export default function AskMeAnythingPage() {
           <div className="grid gap-6 sm:grid-cols-2">
             <blockquote className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/50">
               <p className="mb-4 text-zinc-700 dark:text-zinc-300">
-                "Tony的咨询让我对跨境电商有了全新认识，他的自动化方案帮我节省了大量时间，提高了运营效率。"
+                &ldquo;Tony的咨询让我对跨境电商有了全新认识，他的自动化方案帮我节省了大量时间，提高了运营效率。&rdquo;
               </p>
               <footer className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
@@ -260,7 +258,7 @@ export default function AskMeAnythingPage() {
             
             <blockquote className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/50">
               <p className="mb-4 text-zinc-700 dark:text-zinc-300">
-                "Tony的AI视觉设计经验非常丰富，他给我的建议简单实用，直接帮我解决了困扰已久的产品呈现问题。"
+                &ldquo;Tony的AI视觉设计经验非常丰富，他给我的建议简单实用，直接帮我解决了困扰已久的产品呈现问题。&rdquo;
               </p>
               <footer className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
