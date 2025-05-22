@@ -36,14 +36,9 @@ export function FeaturedPosts() {
         <article key={post.id} className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800/50">
           <div className="relative h-48 overflow-hidden">
             {/* 这里使用占位图，你可以替换为实际的封面图 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-300/20 to-zinc-500/20" />
             <div className="absolute top-2 right-2 z-10">
-              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                post.category === '跨境电商' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' :
-                post.category === 'Google Ads' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' :
-                post.category === 'AI视觉设计' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
-                'bg-zinc-100 text-zinc-800 dark:bg-zinc-800/30 dark:text-zinc-300'
-              }`}>
+              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-zinc-100 text-zinc-800 dark:bg-zinc-800/70 dark:text-zinc-300`}>
                 {post.category}
               </span>
             </div>
@@ -52,7 +47,7 @@ export function FeaturedPosts() {
           <div className="flex flex-1 flex-col justify-between p-6">
             <div>
               <h3 className="mb-2 text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
-                <Link href={`/blog/${post.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                <Link href={`/blog/${post.slug}`} className="hover:text-zinc-600 dark:hover:text-zinc-400">
                   {post.title}
                 </Link>
               </h3>
@@ -64,7 +59,7 @@ export function FeaturedPosts() {
             <div className="mt-6">
               <Link 
                 href={`/blog/${post.slug}`}
-                className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                className="inline-flex items-center text-sm font-medium text-zinc-800 hover:text-zinc-600 dark:text-zinc-300 dark:hover:text-zinc-400"
               >
                 阅读全文
                 <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
