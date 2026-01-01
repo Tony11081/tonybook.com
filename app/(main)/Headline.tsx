@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
 import Balancer from 'react-wrap-balancer'
@@ -9,7 +9,8 @@ import { SocialLink } from '~/components/links/SocialLink'
 function Developer() {
   return (
     <span className="group">
-      <span className="font-mono">&lt;</span>电商开发者
+      <span className="font-mono">&lt;</span>
+      电商开发者
       <span className="font-mono">/&gt;</span>
       <span className="invisible inline-flex text-zinc-300 before:content-['|'] group-hover:visible group-hover:animate-typing dark:text-zinc-500" />
     </span>
@@ -43,7 +44,10 @@ function Founder() {
   return (
     <span className="group inline-flex items-center">
       <UserSecurityIcon className="mr-1 inline-flex group-hover:fill-zinc-600/20 dark:group-hover:fill-zinc-200/20" />
-      <span>Tonybook 创始人</span>
+      <span className="bg-gradient-to-r from-[var(--brand-from)] to-[var(--brand-to)] bg-clip-text text-transparent">
+        Tonybook
+      </span>
+      <span className="ml-1 text-zinc-700 dark:text-zinc-300">创始人</span>
     </span>
   )
 }
@@ -52,7 +56,7 @@ export function Headline() {
   return (
     <div className="max-w-2xl">
       <motion.h1
-        className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
+        className="font-display text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -62,9 +66,9 @@ export function Headline() {
           duration: 0.3,
         }}
       >
-        <Developer />，<Designer />，
+        <Developer />?<Designer />?
         <span className="block h-2" />
-        <OCD />，<Founder />
+        <OCD />?<Founder />
       </motion.h1>
       <motion.p
         className="mt-6 text-base text-zinc-600 dark:text-zinc-400"
@@ -79,9 +83,9 @@ export function Headline() {
         }}
       >
         <Balancer>
-          我是Tony，Tonybook 创始人兼 CEO，专注跨境电商与 AI 定制化视觉产品。<br />
-          带领团队构建自动化爬虫表格清单平台，运营 Google Ads 收入，推动从技术到运营的全流程高效化。<br />
-          我热爱创新、设计与高效执行，也乐于在新领域持续探索。
+          我是 Tony，Tonybook 创始人兼 CEO，专注跨境电商与 AI 视觉产品化。<br />
+          以系统化方法搭建自动化增长与视觉体系，帮助团队提升效率与转化。<br />
+          热爱创新、设计与高效执行，也乐于分享可复用的策略与工具。
         </Balancer>
       </motion.p>
       <motion.div
@@ -136,3 +140,4 @@ export function Headline() {
     </div>
   )
 }
+

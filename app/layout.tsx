@@ -8,7 +8,7 @@ import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from '~/app/(main)/ThemeProvider'
 import { url } from '~/lib'
 import { zhCN } from '~/lib/clerkLocalizations'
-import { sansFont } from '~/lib/font'
+import { displayFont, monoFont, sansFont } from '~/lib/font'
 import { seo } from '~/lib/seo'
 
 export const metadata: Metadata = {
@@ -73,7 +73,7 @@ export default function RootLayout({
     <ClerkProvider localization={zhCN}>
       <html
         lang="zh-CN"
-        className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
+        className={`${sansFont.variable} ${displayFont.variable} ${monoFont.variable} m-0 h-full p-0 font-sans antialiased`}
         suppressHydrationWarning
       >
         <body className="flex h-full flex-col">

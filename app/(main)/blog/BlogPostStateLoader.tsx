@@ -3,7 +3,11 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 
-import { addComment, blogPostState } from '~/app/(main)/blog/blog-post.state'
+import {
+  addComment,
+  blogPostState,
+  resetPostState,
+} from '~/app/(main)/blog/blog-post.state'
 import { type PostIDLessCommentDto } from '~/db/dto/comment.dto'
 import { type Post } from '~/sanity/schemas/post'
 
@@ -19,7 +23,7 @@ export function BlogPostStateLoader({ post }: { post: Post }) {
   )
 
   React.useEffect(() => {
-    blogPostState.postId = post._id
+    resetPostState(post._id)
   }, [post._id])
   React.useEffect(() => {
     // only append new comments

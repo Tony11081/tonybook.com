@@ -18,7 +18,8 @@ export const generateMetadata = async ({
     notFound()
   }
 
-  const { title, description, metaDescription, keywords, mainImage } = post
+  const { title, description, metaDescription, keywords } = post
+  const ogImage = url(`/blog/${post.slug}/opengraph-image`).href
 
   return {
     title,
@@ -27,19 +28,11 @@ export const generateMetadata = async ({
     openGraph: {
       title,
       description: metaDescription || description,
-      images: [
-        {
-          url: mainImage.asset.url,
-        },
-      ],
+      images: [{ url: ogImage }],
       type: 'article',
     },
     twitter: {
-      images: [
-        {
-          url: mainImage.asset.url,
-        },
-      ],
+      images: [{ url: ogImage }],
       title,
       description: metaDescription || description,
       card: 'summary_large_image',
@@ -51,8 +44,10 @@ export const generateMetadata = async ({
 
 export default async function BlogPage({
   params,
+  searchParams,
 }: {
   params: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }) {
   const post = await getBlogPost(params.slug)
   if (!post) {
@@ -103,8 +98,15 @@ export default async function BlogPage({
       views={views}
       relatedViews={relatedViews}
       reactions={reactions.length > 0 ? reactions : undefined}
+      source={source}
     />
   )
 }
 
 export const revalidate = 60
+  const source =
+    typeof searchParams?.from === 'string'
+      ? searchParams.from
+      : typeof searchParams?.utm_source === 'string'
+      ? searchParams.utm_source
+      : undefined

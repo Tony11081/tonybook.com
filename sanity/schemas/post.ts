@@ -25,7 +25,23 @@ export const Post = z.object({
   description: z.string(),
   metaDescription: z.string().optional(),
   keywords: z.array(z.string()).optional(),
-  categories: z.array(z.string()).optional(),
+  categories: z
+    .array(
+      z.object({
+        title: z.string(),
+        slug: z.string().optional(),
+      })
+    )
+    .optional(),
+  series: z
+    .object({
+      _id: z.string(),
+      title: z.string(),
+      slug: z.string(),
+      description: z.string().optional(),
+    })
+    .optional(),
+  seriesOrder: z.number().optional(),
   body: z.any(),
   readingTime: z.number(),
   mood: z.enum(['happy', 'sad', 'neutral']),
@@ -35,6 +51,13 @@ export type PostDetail = Post & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   headings: any[]
   related?: Post[]
+  seriesPosts?: Array<
+    Pick<Post, '_id' | 'title' | 'slug' | 'publishedAt' | 'readingTime'> & {
+      seriesOrder?: number
+    }
+  >
+  previous?: Post
+  next?: Post
 }
 
 export default defineType({
@@ -64,6 +87,18 @@ export default defineType({
       title: '分类',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
+    }),
+    defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'reference',
+      to: [{ type: 'series' }],
+    }),
+    defineField({
+      name: 'seriesOrder',
+      title: 'Series Order',
+      description: 'Order within the series (1, 2, 3...)',
+      type: 'number',
     }),
     defineField({
       name: 'publishedAt',

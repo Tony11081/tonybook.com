@@ -1,0 +1,9 @@
+﻿Tonybook Automation Flow
+
+1. 列出高频重复任务
+2. 评估可自动化的输入/输出
+3. 选择工具（Notion/Airtable/Zapier/Make）
+4. 设计数据流与异常处理
+5. 设定监控与告警
+
+备注：先从单一流程试运行，再扩展到团队。

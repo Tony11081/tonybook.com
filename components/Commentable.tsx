@@ -21,11 +21,13 @@ import {
   clearReply,
   focusBlock,
   replyTo,
+  updateComment,
 } from '~/app/(main)/blog/blog-post.state'
 import {
   EyeCloseIcon,
   EyeOpenIcon,
   NewCommentIcon,
+  SparkleIcon,
   TiltedSendIcon,
   UserArrowLeftIcon,
   UTurnLeftIcon,
@@ -323,6 +325,7 @@ function Comment({
   isMe: (comment: PostIDLessCommentDto) => boolean
 }) {
   const isMyself = React.useMemo(() => isMe(c), [c, isMe])
+  const [isLiking, setIsLiking] = React.useState(false)
   const onClickReply = React.useCallback(() => {
     replyTo(c)
   }, [c])
@@ -333,6 +336,29 @@ function Comment({
         : null,
     [c]
   )
+  const onToggleLike = React.useCallback(async () => {
+    if (isLiking) {
+      return
+    }
+    setIsLiking(true)
+    const method = c.likedByMe ? 'DELETE' : 'POST'
+    try {
+      const res = await fetch(`/api/comments/${c.id}/like`, { method })
+      if (!res.ok) {
+        return
+      }
+      const data = (await res.json()) as {
+        likeCount: number
+        likedByMe: boolean
+      }
+      updateComment(c.id, {
+        likeCount: data.likeCount,
+        likedByMe: data.likedByMe,
+      })
+    } finally {
+      setIsLiking(false)
+    }
+  }, [c.id, c.likedByMe, isLiking])
 
   return (
     <li data-commentid={c.id} data-parentid={parentComment?.id}>
@@ -365,6 +391,12 @@ function Comment({
             )}
           >
             {!isMyself && <span>{parseDisplayName(c.userInfo)}</span>}
+            {c.isFeatured && (
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-500">
+                <SparkleIcon className="h-3 w-3" />
+                精选
+              </span>
+            )}
             <span className="inline-flex select-none text-[10px] font-medium opacity-40">
               {dayjs(c.createdAt).locale('zh-cn').fromNow()}
             </span>
@@ -419,6 +451,26 @@ function Comment({
               </div>
             )}
             <CommentMarkdown>{c.body.text}</CommentMarkdown>
+            <div
+              className={clsxm(
+                'mt-1 flex items-center gap-2 text-[10px] text-zinc-500',
+                isMyself && 'justify-end'
+              )}
+            >
+              <button
+                type="button"
+                className={clsxm(
+                  'rounded-full px-2 py-0.5 transition',
+                  c.likedByMe
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-200 dark:text-zinc-900'
+                    : 'bg-zinc-100 text-zinc-600 hover:text-zinc-900 dark:bg-zinc-800 dark:text-zinc-400'
+                )}
+                onClick={onToggleLike}
+                disabled={isLiking}
+              >
+                赞 {c.likeCount ?? 0}
+              </button>
+            </div>
           </div>
         </div>
       </div>

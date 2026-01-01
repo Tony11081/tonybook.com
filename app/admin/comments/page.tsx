@@ -1,25 +1,14 @@
-import {
-  Card,
-  Grid,
-  Metric,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRow,
-  Text,
-  Title,
-} from '@tremor/react'
+﻿import { Card, Grid, Metric, Text, Title } from '@tremor/react'
 import { desc, sql } from 'drizzle-orm'
-import Link from 'next/link'
 import React from 'react'
 
 import { db } from '~/db'
+import { CommentHashids } from '~/db/dto/comment.dto'
 import { comments } from '~/db/schema'
-import { url } from '~/lib'
-import { truncate } from '~/lib/string'
 import { client } from '~/sanity/lib/client'
+import { truncate } from '~/lib/string'
+
+import { CommentsAdminTable } from './CommentsAdminTable'
 
 export default async function AdminCommentsPage() {
   const {
@@ -36,11 +25,20 @@ export default async function AdminCommentsPage() {
   )
 
   const latestComments = await db
-    .select()
+    .select({
+      id: comments.id,
+      postId: comments.postId,
+      userId: comments.userId,
+      userInfo: comments.userInfo,
+      body: comments.body,
+      createdAt: comments.createdAt,
+      parentId: comments.parentId,
+      isFeatured: comments.isFeatured,
+    })
     .from(comments)
     .orderBy(desc(comments.createdAt))
-    .limit(15)
-  // get unique post IDs from comments
+    .limit(20)
+
   const postIds = [...new Set(latestComments.map((comment) => comment.postId))]
   const posts = await client.fetch<
     { _id: string; title: string; slug: string }[]
@@ -49,8 +47,18 @@ export default async function AdminCommentsPage() {
       .map((v) => `"${v}"`)
       .join(',')}])]{ _id, title, "slug":slug.current }`
   )
-  // define a map with key of post IDs to posts
   const postMap = new Map(posts.map((post) => [post._id, post]))
+
+  const commentRows = latestComments.map((comment) => ({
+    ...comment,
+    id: CommentHashids.encode(comment.id),
+    body: {
+      ...(comment.body as { text?: string; blockId?: string }),
+      text: truncate((comment.body as { text?: string }).text ?? ''),
+    },
+    postTitle: postMap.get(comment.postId)?.title,
+    postSlug: postMap.get(comment.postId)?.slug,
+  }))
 
   return (
     <>
@@ -59,7 +67,6 @@ export default async function AdminCommentsPage() {
       <Grid numItemsMd={2} numItemsLg={3} className="mt-6 gap-6">
         <Card>
           <Text>今日评论数</Text>
-
           {commentsCount && 'today_count' in commentsCount && (
             <Metric>{commentsCount.today_count}</Metric>
           )}
@@ -70,7 +77,6 @@ export default async function AdminCommentsPage() {
             <Metric>{commentsCount.this_week_count}</Metric>
           )}
         </Card>
-
         <Card>
           <Text>本月评论数</Text>
           {commentsCount && 'this_month_count' in commentsCount && (
@@ -79,38 +85,7 @@ export default async function AdminCommentsPage() {
         </Card>
       </Grid>
 
-      <Card className="mt-6">
-        <Table className="mt-5">
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell>文章</TableHeaderCell>
-              <TableHeaderCell>评论内容</TableHeaderCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {latestComments.map((comment) => (
-              <TableRow key={comment.id}>
-                <TableCell>
-                  <Link
-                    href={
-                      url(`/blog/${postMap.get(comment.postId)?.slug ?? ''}`)
-                        .href
-                    }
-                  >
-                    {postMap.get(comment.postId)?.title}
-                  </Link>
-                </TableCell>
-                <TableCell>
-                  <Text>
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {truncate((comment.body as any).text as string)}
-                  </Text>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Card>
+      <CommentsAdminTable initialComments={commentRows} />
     </>
   )
 }

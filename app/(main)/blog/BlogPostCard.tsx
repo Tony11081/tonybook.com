@@ -13,6 +13,9 @@ import { type Post } from '~/sanity/schemas/post'
 
 export function BlogPostCard({ post, views }: { post: Post; views: number }) {
   const { title, slug, mainImage, publishedAt, categories, readingTime } = post
+  const categoryLabel = Array.isArray(categories)
+    ? categories.map((category) => category.title).join(', ')
+    : ''
 
   return (
     <Link
@@ -54,10 +57,10 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
               </span>
             </span>
 
-            {Array.isArray(categories) && (
+            {categoryLabel && (
               <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
                 <ScriptIcon />
-                <span>{categories.join(', ')}</span>
+                <span>{categoryLabel}</span>
               </span>
             )}
           </span>

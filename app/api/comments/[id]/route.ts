@@ -1,6 +1,6 @@
-import { clerkClient, currentUser } from '@clerk/nextjs'
+﻿import { clerkClient, currentUser } from '@clerk/nextjs'
 import { Ratelimit } from '@upstash/ratelimit'
-import { asc, eq } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -11,9 +11,11 @@ import {
   CommentHashids,
   type PostIDLessCommentDto,
 } from '~/db/dto/comment.dto'
-import { comments } from '~/db/schema'
+import { commentLikes, comments } from '~/db/schema'
 import NewReplyCommentEmail from '~/emails/NewReplyComment'
 import { env } from '~/env.mjs'
+import { getIP } from '~/lib/ip'
+import { createNotification } from '~/lib/notifications'
 import { url } from '~/lib'
 import { resend } from '~/lib/mail'
 import { redis } from '~/lib/redis'
@@ -33,6 +35,7 @@ type Params = { params: { id: string } }
 export async function GET(req: NextRequest, { params }: Params) {
   try {
     const postId = params.id
+    const user = await currentUser()
 
     const { success } = await ratelimit.limit(
       getKey(postId) + `_${req.ip ?? ''}`
@@ -51,10 +54,42 @@ export async function GET(req: NextRequest, { params }: Params) {
         body: comments.body,
         createdAt: comments.createdAt,
         parentId: comments.parentId,
+        isFeatured: comments.isFeatured,
       })
       .from(comments)
       .where(eq(comments.postId, postId))
-      .orderBy(asc(comments.createdAt))
+      .orderBy(desc(comments.isFeatured), asc(comments.createdAt))
+
+    const ids = data.map((item) => item.id)
+
+    const likeCounts = ids.length
+      ? await db
+          .select({
+            commentId: commentLikes.commentId,
+            count: sql<number>`count(*)`,
+          })
+          .from(commentLikes)
+          .where(inArray(commentLikes.commentId, ids))
+          .groupBy(commentLikes.commentId)
+      : []
+
+    const likedByUser =
+      user && ids.length
+        ? await db
+            .select({ commentId: commentLikes.commentId })
+            .from(commentLikes)
+            .where(
+              and(
+                inArray(commentLikes.commentId, ids),
+                eq(commentLikes.userId, user.id)
+              )
+            )
+        : []
+
+    const likeCountMap = new Map(
+      likeCounts.map((row) => [row.commentId, Number(row.count) || 0])
+    )
+    const likedSet = new Set(likedByUser?.map((row) => row.commentId))
 
     return NextResponse.json(
       data.map(
@@ -63,6 +98,8 @@ export async function GET(req: NextRequest, { params }: Params) {
             ...rest,
             id: CommentHashids.encode(id),
             parentId: parentId ? CommentHashids.encode(parentId) : null,
+            likeCount: likeCountMap.get(id) ?? 0,
+            likedByMe: likedSet.has(id),
           }) as PostIDLessCommentDto
       )
     )
@@ -110,6 +147,18 @@ export async function POST(req: NextRequest, { params }: Params) {
     const data = await req.json()
     const { body, parentId: hashedParentId } = CreateCommentSchema.parse(data)
 
+    const ip = getIP(req)
+    const spamKey = `comment:spam:${postId}:${user.id}:${ip}`
+    const previous = await redis.get<string>(spamKey)
+    if (previous && previous === body.text) {
+      return NextResponse.json({ error: 'Duplicate content' }, { status: 429 })
+    }
+    const linkMatches = body.text.match(/https?:\/\//gi) ?? []
+    if (linkMatches.length > 2 || (linkMatches.length > 0 && body.text.length < 24)) {
+      return NextResponse.json({ error: 'Suspicious content' }, { status: 400 })
+    }
+    await redis.set(spamKey, body.text, { ex: 120 })
+
     const [parentId] = CommentHashids.decode(hashedParentId ?? '')
     const commentData = {
       postId,
@@ -123,14 +172,17 @@ export async function POST(req: NextRequest, { params }: Params) {
       parentId: parentId ? (parentId as number) : null,
     }
 
-    if (parentId && env.NODE_ENV === 'production') {
-      const [parentUserFromDb] = await db
-        .select({
-          userId: comments.userId,
-        })
-        .from(comments)
-        .where(eq(comments.id, parentId as number))
-      if (parentUserFromDb && parentUserFromDb.userId !== user.id) {
+    const [parentUserFromDb] = parentId
+      ? await db
+          .select({
+            userId: comments.userId,
+          })
+          .from(comments)
+          .where(eq(comments.id, parentId as number))
+      : []
+
+    if (parentUserFromDb && parentUserFromDb.userId !== user.id) {
+      if (env.NODE_ENV === 'production') {
         const { primaryEmailAddressId, emailAddresses } =
           await clerkClient.users.getUser(parentUserFromDb.userId)
         const primaryEmailAddress = emailAddresses.find(
@@ -140,7 +192,7 @@ export async function POST(req: NextRequest, { params }: Params) {
           await resend.emails.send({
             from: emailConfig.from,
             to: primaryEmailAddress.emailAddress,
-            subject: '👋 有人回复了你的评论',
+            subject: '有人回复了你的评论',
             react: NewReplyCommentEmail({
               postTitle: post.title,
               postLink: url(`/blog/${post.slug}`).href,
@@ -162,11 +214,36 @@ export async function POST(req: NextRequest, { params }: Params) {
         newId: comments.id,
       })
 
+    const encodedCommentId = CommentHashids.encode(newComment.newId)
+
+    if (parentUserFromDb && parentUserFromDb.userId !== user.id) {
+      await createNotification(
+        {
+          userId: parentUserFromDb.userId,
+          type: 'comment_reply',
+          title: '有人回复了你的评论',
+          message: body.text.slice(0, 120),
+          href: `/blog/${post.slug}`,
+          entityType: 'comment',
+          entityId: encodedCommentId,
+          metadata: {
+            postId,
+            postTitle: post.title,
+          },
+          ctaLabel: '查看回复',
+        },
+        { sendEmail: false }
+      )
+    }
+
     return NextResponse.json({
       ...commentData,
-      id: CommentHashids.encode(newComment.newId),
+      id: encodedCommentId,
       createdAt: new Date(),
       parentId: hashedParentId,
+      likeCount: 0,
+      likedByMe: false,
+      isFeatured: false,
     } satisfies CommentDto)
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 })

@@ -10,11 +10,50 @@ body {
   scroll-padding-top: 3rem;
 }
 
+:root {
+  --reader-font-size: 1rem;
+  --reader-line-height: 1.75rem;
+  --brand-from: #0ea5e9;
+  --brand-to: #10b981;
+}
+
+html[data-reader-size='sm'] {
+  --reader-font-size: 0.95rem;
+}
+
+html[data-reader-size='lg'] {
+  --reader-font-size: 1.1rem;
+}
+
+html[data-reader-leading='tight'] {
+  --reader-line-height: 1.6rem;
+}
+
+html[data-reader-leading='relaxed'] {
+  --reader-line-height: 1.9rem;
+}
+
+.prose {
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
 html.light {
   --bg-color: theme('colors.zinc.50');
 }
 html.dark {
   --bg-color: theme('colors.primary.900');
+  --brand-from: #38bdf8;
+  --brand-to: #34d399;
 }
 
 [data-radix-popper-content-wrapper] {

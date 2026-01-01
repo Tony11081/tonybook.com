@@ -1,9 +1,14 @@
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
+import { emailConfig } from '~/config/email'
 import { Container } from '~/components/ui/Container'
 import { db } from '~/db'
-import { subscribers } from '~/db/schema'
+import { conversionEvents, emailQueue, subscribers } from '~/db/schema'
+import WelcomeSequenceEmail from '~/emails/WelcomeSequence'
+import { env } from '~/env.mjs'
+import { resend } from '~/lib/mail'
+import { welcomeSequence } from '~/lib/welcome-sequence'
 
 import { SubbedCelebration } from './SubbedCelebration'
 
@@ -25,10 +30,51 @@ export default async function ConfirmPage({
     redirect('/')
   }
 
+  const subscribedAt = new Date()
+
   await db
     .update(subscribers)
-    .set({ subscribedAt: new Date(), token: null })
+    .set({ subscribedAt, token: null })
     .where(eq(subscribers.id, subscriber.id))
+
+  await db.insert(conversionEvents).values({
+    event: 'newsletter_subscribe_confirmed',
+    source: 'confirm',
+    metadata: { email: subscriber.email ?? '' },
+  })
+
+  if (env.NODE_ENV === 'production' && subscriber.email) {
+    const [firstStep, ...restSteps] = welcomeSequence
+    if (firstStep) {
+      await resend.emails.send({
+        from: emailConfig.from,
+        to: subscriber.email,
+        subject: firstStep.subject,
+        react: WelcomeSequenceEmail({
+          preview: firstStep.preview,
+          title: firstStep.title,
+          paragraphs: firstStep.paragraphs,
+          bullets: firstStep.bullets,
+          cta: firstStep.cta,
+        }),
+      })
+    }
+
+    if (restSteps.length > 0) {
+      const queued = restSteps.map((step) => {
+        const sendAt = new Date(subscribedAt)
+        sendAt.setDate(sendAt.getDate() + step.delayDays)
+        return {
+          email: subscriber.email ?? '',
+          type: 'welcome_sequence',
+          subject: step.subject,
+          payload: step,
+          sendAt,
+        }
+      })
+      await db.insert(emailQueue).values(queued)
+    }
+  }
 
   return (
     <Container className="mt-16 sm:mt-32">

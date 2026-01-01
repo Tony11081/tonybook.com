@@ -107,9 +107,10 @@ module.exports = {
           },
 
           // Headings
-          'h2, h3': {
+          'h1, h2, h3, h4': {
             color: 'var(--tw-prose-headings)',
             fontWeight: theme('fontWeight.semibold'),
+            fontFamily: theme('fontFamily.display').join(', '),
           },
           h2: {
             fontSize: theme('fontSize.xl')[0],
@@ -150,6 +151,7 @@ module.exports = {
             color: 'var(--tw-prose-code)',
             fontSize: theme('fontSize.sm')[0],
             fontWeight: theme('fontWeight.semibold'),
+            fontFamily: theme('fontFamily.mono').join(', '),
             backgroundColor: 'var(--tw-prose-code-bg)',
             borderRadius: theme('borderRadius.lg'),
             paddingLeft: theme('spacing.1'),
@@ -220,6 +222,7 @@ module.exports = {
             color: 'var(--tw-prose-pre-code)',
             fontSize: theme('fontSize.sm')[0],
             fontWeight: theme('fontWeight.medium'),
+            fontFamily: theme('fontFamily.mono').join(', '),
             backgroundColor: 'var(--tw-prose-pre-bg)',
             borderRadius: theme('borderRadius.3xl'),
             borderTopLeftRadius: 0,
@@ -371,6 +374,8 @@ module.exports = {
 
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
+        display: ['var(--font-display)', ...fontFamily.serif],
+        mono: ['var(--font-mono)', ...fontFamily.mono],
       },
 
       animation: {

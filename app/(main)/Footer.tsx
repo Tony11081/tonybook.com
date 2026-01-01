@@ -1,5 +1,4 @@
-import { count, isNotNull } from 'drizzle-orm'
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import React from 'react'
 
 import { CursorClickIcon, UsersIcon } from '~/assets'
@@ -7,8 +6,6 @@ import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { kvKeys } from '~/config/kv'
 import { navigationItems } from '~/config/nav'
-import { db } from '~/db'
-import { subscribers } from '~/db/schema'
 import { env } from '~/env.mjs'
 import { prettifyNumber } from '~/lib/math'
 import { redis } from '~/lib/redis'
@@ -34,6 +31,38 @@ function Links() {
   return (
     <nav className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
       {navigationItems.map(({ href, text }) => (
+        <NavLink key={href} href={href}>
+          {text}
+        </NavLink>
+      ))}
+    </nav>
+  )
+}
+
+const moreLinks = [
+  { href: '/updates', text: 'Updates' },
+  { href: '/roadmap', text: 'Roadmap' },
+  { href: '/now', text: 'Now' },
+  { href: '/uses', text: 'Uses' },
+  { href: '/start-here', text: 'Start Here' },
+  { href: '/playbooks', text: 'Playbooks' },
+  { href: '/library', text: '资源库' },
+  { href: '/projects', text: '项目' },
+  { href: '/case-studies', text: '案例' },
+  { href: '/glossary', text: '术语库' },
+  { href: '/guestbook', text: '留言' },
+  { href: '/work-with-me', text: '合作' },
+  { href: '/consultation', text: '咨询' },
+  { href: '/notifications', text: '通知' },
+  { href: '/newsletters', text: 'Newsletter' },
+  { href: '/changelog', text: '更新' },
+  { href: '/colophon', text: 'Colophon' },
+]
+
+function MoreLinks() {
+  return (
+    <nav className="flex flex-wrap gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+      {moreLinks.map(({ href, text }) => (
         <NavLink key={href} href={href}>
           {text}
         </NavLink>
@@ -102,14 +131,17 @@ export async function Footer() {
       <Container.Outer>
         <div className="border-t border-zinc-100 pb-16 pt-10 dark:border-zinc-700/40">
           <Container.Inner>
-            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-start">
               <p className="text-sm text-zinc-500/80 dark:text-zinc-400/80">
                 &copy; {new Date().getFullYear()} Cali Castle. 网站已开源：
                 <PeekabooLink href="https://github.com/CaliCastle/cali.so">
                   GitHub
                 </PeekabooLink>
               </p>
-              <Links />
+              <div className="flex flex-col items-center gap-3 sm:items-end">
+                <Links />
+                <MoreLinks />
+              </div>
             </div>
           </Container.Inner>
           <Container.Inner className="mt-6">

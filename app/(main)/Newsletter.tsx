@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import va from '@vercel/analytics'
@@ -20,7 +20,21 @@ export const newsletterFormSchema = z.object({
 })
 export type NewsletterForm = z.infer<typeof newsletterFormSchema>
 
-export function Newsletter({ subCount }: { subCount?: string }) {
+type NewsletterProps = {
+  subCount?: string
+  source?: string
+  leadMagnet?: string
+  title?: string
+  description?: React.ReactNode
+}
+
+export function Newsletter({
+  subCount,
+  source,
+  leadMagnet,
+  title = '动态更新',
+  description,
+}: NewsletterProps) {
   const {
     register,
     handleSubmit,
@@ -33,7 +47,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
   const [isSubscribed, setIsSubscribed] = React.useState(false)
   const { reward } = useReward('newsletter-rewards', 'emoji', {
     position: 'absolute',
-    emoji: ['🤓', '😊', '🥳', '🤩', '🤪', '🤯', '🥰', '😎', '🤑', '🤗', '😇'],
+    emoji: ['*', '+', '#', '*', '+', '#'],
     elementCount: 32,
   })
   const onSubmit = React.useCallback(
@@ -42,13 +56,33 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         if (isSubmitting) return
 
         va.track('Newsletter:Subscribe')
+        if (source || leadMagnet) {
+          fetch('/api/track', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              event: 'newsletter_subscribe_start',
+              source,
+              metadata: leadMagnet ? { leadMagnet } : undefined,
+            }),
+            keepalive: true,
+          }).catch(() => undefined)
+        }
 
         const response = await fetch('/api/newsletter', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ data }),
+          body: JSON.stringify({
+            data: {
+              ...data,
+              source,
+              leadMagnet,
+            },
+          }),
         })
         if (response.ok) {
           reset()
@@ -59,7 +93,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         console.error(error)
       }
     },
-    [isSubmitting, reset, reward]
+    [isSubmitting, reset, reward, source, leadMagnet]
   )
 
   React.useEffect(() => {
@@ -79,17 +113,27 @@ export function Newsletter({ subCount }: { subCount?: string }) {
       <input type="hidden" className="hidden" {...register('formId')} />
       <h2 className="flex items-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         <TiltedSendIcon className="h-5 w-5 flex-none" />
-        <span className="ml-2">动态更新</span>
+        <span className="ml-2">{title}</span>
       </h2>
       <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 md:text-sm">
-        <span>喜欢我的内容的话不妨订阅支持一下 🫶</span>
-        <br />
-        {subCount && (
-          <span>
-            加入其他 <span className="font-medium">{subCount}</span> 位订阅者，
-          </span>
+        {description ?? (
+          <>
+            <span>喜欢我的内容的话不妨订阅支持一下。</span>
+            <br />
+            {subCount && (
+              <span>
+                加入其他 <span className="font-medium">{subCount}</span> 位订阅者，
+              </span>
+            )}
+            <span>每月一封，随时可以取消订阅。</span>
+          </>
         )}
-        <span>每月一封，随时可以取消订阅。</span>
+        {leadMagnet && (
+          <>
+            <br />
+            <span className="font-medium">订阅后自动发送：{leadMagnet}</span>
+          </>
+        )}
       </p>
       <AnimatePresence mode="wait">
         {!isSubscribed ? (
@@ -107,11 +151,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
               className="min-w-0 flex-auto appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-lime-500 focus:outline-none focus:ring-4 focus:ring-lime-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400/50 dark:focus:ring-lime-400/5 sm:text-sm"
               {...register('email')}
             />
-            <Button
-              type="submit"
-              className="ml-2 flex-none"
-              disabled={isSubmitting}
-            >
+            <Button type="submit" className="ml-2 flex-none" disabled={isSubmitting}>
               订阅
             </Button>
           </motion.div>
@@ -122,7 +162,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit="initial"
           >
-            请查收订阅确认邮件 🥳
+            请查收订阅确认邮件。
           </motion.p>
         )}
       </AnimatePresence>

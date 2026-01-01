@@ -3,6 +3,7 @@
 import { parseDateTime } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 
@@ -24,6 +25,12 @@ import { Container } from '~/components/ui/Container'
 import { prettifyNumber } from '~/lib/math'
 import { type PostDetail } from '~/sanity/schemas/post'
 
+import { BlogPostCTA } from './BlogPostCTA'
+import { BlogPostLeadMagnet } from './BlogPostLeadMagnet'
+import { BlogPostMobileToc } from './BlogPostMobileToc'
+import { BlogPostNextSteps } from './BlogPostNextSteps'
+import { BlogPostReadingControls } from './BlogPostReadingControls'
+import { BlogPostReadingProgress } from './BlogPostReadingProgress'
 import { BlogPostCard } from './BlogPostCard'
 import { BlogPostTableOfContents } from './BlogPostTableOfContents'
 
@@ -32,15 +39,33 @@ export function BlogPostPage({
   views,
   reactions,
   relatedViews,
+  source,
 }: {
   post: PostDetail
   views?: number
   reactions?: number[]
   relatedViews: number[]
+  source?: string
 }) {
+  const seriesPosts = post.seriesPosts ?? []
+  const seriesIndex = seriesPosts.findIndex((item) => item._id === post._id)
+  const seriesPosition = seriesIndex >= 0 ? seriesIndex + 1 : 0
+  const seriesTotal = seriesPosts.length
+  const seriesProgress =
+    seriesTotal > 0 ? Math.round((seriesPosition / seriesTotal) * 100) : 0
+  const seriesPrev = seriesIndex > 0 ? seriesPosts[seriesIndex - 1] : null
+  const seriesNext =
+    seriesIndex >= 0 && seriesIndex < seriesTotal - 1
+      ? seriesPosts[seriesIndex + 1]
+      : null
+  const prevPost = seriesPrev ?? post.previous ?? null
+  const nextPost = seriesNext ?? post.next ?? null
+
   return (
-    <Container className="mt-16 lg:mt-32">
-      <div className="w-full md:flex md:justify-between xl:relative">
+    <>
+      <BlogPostReadingProgress />
+      <Container className="mt-16 lg:mt-32">
+        <div className="w-full md:flex md:justify-between xl:relative">
         <aside className="hidden w-[160px] shrink-0 lg:block">
           <div className="sticky top-2 pt-20">
             <BlogPostTableOfContents headings={post.headings} />
@@ -113,7 +138,27 @@ export function BlogPostPage({
                 </time>
                 <span className="inline-flex items-center space-x-1.5">
                   <ScriptIcon />
-                  <span>{post.categories?.join(', ')}</span>
+                  <span className="flex flex-wrap items-center gap-2">
+                    {post.series && (
+                      <Link
+                        href={`/series/${post.series.slug}`}
+                        className="rounded-full border border-zinc-300/50 px-2 py-0.5 text-xs text-zinc-600 transition hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
+                      >
+                        系列：{post.series.title}
+                      </Link>
+                    )}
+                    {post.categories?.map((category) => (
+                      <Link
+                        key={category.title}
+                        href={`/blog?category=${encodeURIComponent(
+                          category.slug ?? ''
+                        )}`}
+                        className="rounded-full border border-zinc-300/50 px-2 py-0.5 text-xs text-zinc-600 transition hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
+                      >
+                        {category.title}
+                      </Link>
+                    ))}
+                  </span>
                 </span>
               </motion.div>
               <motion.h1
@@ -170,10 +215,72 @@ export function BlogPostPage({
                 </span>
               </motion.div>
             </header>
+
+            {post.series && seriesTotal > 0 && (
+              <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white/70 p-4 shadow-sm dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                  <Link href={`/series/${post.series.slug}`}>
+                    系列进度
+                  </Link>
+                  <span>
+                    {seriesPosition}/{seriesTotal}
+                  </span>
+                </div>
+                <div className="mt-2 h-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                  <div
+                    className="h-full rounded-full bg-zinc-900 dark:bg-zinc-200"
+                    style={{ width: `${seriesProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                阅读设置
+              </span>
+              <BlogPostReadingControls />
+            </div>
             <Prose className="mt-8">
               <PostPortableText value={post.body} />
             </Prose>
           </article>
+
+          <BlogPostCTA />
+          <BlogPostLeadMagnet />
+
+          <BlogPostNextSteps post={post} source={source} />
+
+          {(prevPost || nextPost) && (
+            <section className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2">
+              {prevPost && (
+                <Link
+                  href={`/blog/${prevPost.slug}`}
+                  className="flex flex-col gap-2 rounded-2xl border border-zinc-200/80 bg-white/70 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700/60 dark:bg-zinc-900/60"
+                >
+                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                    {seriesPrev ? '系列上一篇' : '上一篇'}
+                  </span>
+                  <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                    {prevPost.title}
+                  </span>
+                </Link>
+              )}
+              {nextPost && (
+                <Link
+                  href={`/blog/${nextPost.slug}`}
+                  className="flex flex-col gap-2 rounded-2xl border border-zinc-200/80 bg-white/70 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700/60 dark:bg-zinc-900/60"
+                >
+                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                    {seriesNext ? '系列下一篇' : '下一篇'}
+                  </span>
+                  <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                    {nextPost.title}
+                  </span>
+                </Link>
+              )}
+            </section>
+          )}
         </div>
         <aside className="hidden w-[90px] shrink-0 lg:block">
           <div className="sticky top-2 flex justify-end pt-20">
@@ -209,5 +316,7 @@ export function BlogPostPage({
         <BlogPostStateLoader post={post} />
       </ClientOnly>
     </Container>
+    <BlogPostMobileToc headings={post.headings} />
+    </>
   )
 }

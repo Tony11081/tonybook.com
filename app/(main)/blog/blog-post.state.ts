@@ -15,8 +15,29 @@ export const blogPostState = proxy<{
   replyingTo: null,
 })
 
+export function resetPostState(postId: PostID) {
+  blogPostState.postId = postId
+  blogPostState.currentBlockId = null
+  blogPostState.comments = []
+  blogPostState.replyingTo = null
+}
+
 export function addComment(comment: PostIDLessCommentDto) {
   blogPostState.comments.push(comment)
+}
+
+export function updateComment(
+  id: PostIDLessCommentDto['id'],
+  updates: Partial<PostIDLessCommentDto>
+) {
+  const idx = blogPostState.comments.findIndex((comment) => comment.id === id)
+  if (idx === -1) {
+    return
+  }
+  blogPostState.comments[idx] = {
+    ...blogPostState.comments[idx],
+    ...updates,
+  }
 }
 
 export function replyTo(comment: PostIDLessCommentDto) {

@@ -8,6 +8,48 @@
       "when": 1710044001674,
       "tag": "0000_shallow_iron_fist",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710044001675,
+      "tag": "0001_add_interactions",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710044001676,
+      "tag": "0002_add_like_constraints",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1710044001677,
+      "tag": "0003_add_email_queue",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1710044001678,
+      "tag": "0004_add_search_insights",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1710044001679,
+      "tag": "0005_add_notifications",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1710044001680,
+      "tag": "0006_add_consultation_requests",
+      "breakpoints": true
     }
   ]
 }

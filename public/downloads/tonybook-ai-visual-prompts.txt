@@ -1,0 +1,7 @@
+﻿Tonybook AI Visual Prompt Pack
+
+1. 品牌主视觉："[品牌名] modern hero shot, soft daylight, minimal, clean background, product centered"
+2. 场景陈列："lifestyle scene, user interacting with product, warm tone, high contrast"
+3. 细节特写："macro product detail, sharp texture, studio lighting"
+
+使用建议：统一色彩与构图，保持风格一致。

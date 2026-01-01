@@ -13,13 +13,19 @@ import React from 'react'
 import { useMutation } from 'react-query'
 import { useReward } from 'react-rewards'
 import TextareaAutosize from 'react-textarea-autosize'
+import { useSnapshot } from 'valtio'
 
-import { signBook } from '~/app/(main)/guestbook/guestbook.state'
+import {
+  clearGuestbookReply,
+  guestbookState,
+  signBook,
+} from '~/app/(main)/guestbook/guestbook.state'
 import { EyeCloseIcon, EyeOpenIcon, TiltedSendIcon } from '~/assets'
 import { CommentMarkdown } from '~/components/CommentMarkdown'
 import { RichLink } from '~/components/links/RichLink'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
+import { parseDisplayName } from '~/lib/string'
 
 const MAX_MESSAGE_LENGTH = 600
 const REWARDS_ID = 'guestbook-rewards'
@@ -29,6 +35,7 @@ export function GuestbookInput() {
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
   const [message, setMessage] = React.useState('')
   const [isPreviewing, setIsPreviewing] = React.useState(false)
+  const { replyingTo } = useSnapshot(guestbookState)
 
   const { reward } = useReward(REWARDS_ID, 'emoji', {
     position: 'absolute',
@@ -66,6 +73,7 @@ export function GuestbookInput() {
         },
         body: JSON.stringify({
           message,
+          parentId: replyingTo?.id ?? null,
         }),
       })
       const data: GuestbookDto = await res.json()
@@ -75,6 +83,7 @@ export function GuestbookInput() {
       onSuccess: (data) => {
         setMessage('')
         setIsPreviewing(false)
+        clearGuestbookReply()
         reward()
         signBook(data)
       },
@@ -88,6 +97,12 @@ export function GuestbookInput() {
 
     signGuestbook()
   }
+
+  React.useEffect(() => {
+    if (replyingTo) {
+      textareaRef.current?.focus()
+    }
+  }, [replyingTo])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && e.metaKey) {
@@ -174,6 +189,20 @@ export function GuestbookInput() {
       </div>
 
       <div className="z-10 ml-2 flex-1 shrink-0 md:ml-4">
+        {replyingTo && (
+          <div className="mb-2 flex items-center justify-between rounded-lg border border-zinc-200/70 bg-white/70 px-3 py-2 text-xs text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-300">
+            <span className="line-clamp-1">
+              回复 {parseDisplayName(replyingTo.userInfo)}：{replyingTo.message}
+            </span>
+            <button
+              type="button"
+              className="ml-2 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+              onClick={clearGuestbookReply}
+            >
+              取消
+            </button>
+          </div>
+        )}
         {isPreviewing ? (
           <div
             className="comment__message flex-1 shrink-0 px-2 py-1 text-sm text-zinc-800 dark:text-zinc-200"

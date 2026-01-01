@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
@@ -7,10 +7,12 @@ import { usePathname } from 'next/navigation'
 
 import {
   DashboardIcon,
+  ClipboardDataIcon,
   HomeIcon,
   NewCommentIcon,
   SubscriberIcon,
   TiltedSendIcon,
+  UsersIcon,
 } from '~/assets'
 
 import logo from './../apple-icon.png'
@@ -18,8 +20,10 @@ import logo from './../apple-icon.png'
 const navigation = [
   { name: '仪表盘', href: '', icon: DashboardIcon },
   { name: '评论', href: '/comments', icon: NewCommentIcon },
+  { name: '留言', href: '/guestbook', icon: UsersIcon },
   { name: '订阅', href: '/subscribers', icon: SubscriberIcon },
   { name: 'Newsletters', href: '/newsletters', icon: TiltedSendIcon },
+  { name: '搜索洞察', href: '/search-insights', icon: ClipboardDataIcon },
 ]
 
 export function Sidebar() {
@@ -30,7 +34,6 @@ export function Sidebar() {
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      {/* Sidebar component, swap this element with another sidebar if you like */}
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 dark:border-slate-800 dark:bg-slate-900">
         <div className="flex h-16 shrink-0 items-center">
           <Image className="h-8 w-auto" src={logo} alt="" />

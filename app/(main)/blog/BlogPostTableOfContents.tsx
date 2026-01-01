@@ -59,7 +59,13 @@ const itemVariants = {
   },
 } satisfies Variants
 
-export function BlogPostTableOfContents({ headings }: { headings: Node[] }) {
+export function BlogPostTableOfContents({
+  headings,
+  onNavigate,
+}: {
+  headings: Node[]
+  onNavigate?: () => void
+}) {
   const outline = parseOutline(headings)
   const { scrollY } = useScroll()
   const [highlightedHeadingId, setHighlightedHeadingId] = React.useState<
@@ -122,7 +128,11 @@ export function BlogPostTableOfContents({ headings }: { headings: Node[] }) {
           )}
           aria-label={node.id === highlightedHeadingId ? '当前位置' : undefined}
         >
-          <a href={`#${node.id}`} className="block w-full">
+          <a
+            href={`#${node.id}`}
+            className="block w-full"
+            onClick={() => onNavigate?.()}
+          >
             {node.text}
           </a>
         </motion.li>
