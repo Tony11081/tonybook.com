@@ -1,6 +1,5 @@
 ﻿import { groq } from 'next-sanity'
 
-import { getDate } from '~/lib/date'
 import { client } from '~/sanity/lib/client'
 import { type Post, type PostDetail } from '~/sanity/schemas/post'
 import { type Project } from '~/sanity/schemas/project'
@@ -9,7 +8,7 @@ import { type Series } from '~/sanity/schemas/series'
 export const getAllLatestBlogPostSlugsQuery = () =>
   groq`
   *[_type == "post" && !(_id in path("drafts.**"))
-  && publishedAt <="${getDate().toISOString()}"
+  && publishedAt <= now()
   && defined(slug.current)] | order(publishedAt desc).slug.current
   `
 
@@ -27,7 +26,7 @@ type GetBlogPostsOptions = {
 }
 
 const basePostFilter = () =>
-  `_type == "post" && !(_id in path("drafts.**")) && publishedAt <= "${getDate().toISOString()}" && defined(slug.current)`
+  `_type == "post" && !(_id in path("drafts.**")) && publishedAt <= now() && defined(slug.current)`
 
 const buildPostFilter = ({ search, category, reading }: GetBlogPostsOptions) => {
   const filters = [basePostFilter()]

@@ -9,6 +9,8 @@ import { redis } from '~/lib/redis'
 import { getBlogPosts } from '~/sanity/queries'
 import { type Post } from '~/sanity/schemas/post'
 
+export const revalidate = 60
+
 const DEFAULT_LIMIT = 10
 const MAX_LIMIT = 30
 
@@ -174,11 +176,16 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     posts: sliced,
     total,
     page,
     limit,
     hasMore: offset + limit < total,
   })
+  response.headers.set(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=300'
+  )
+  return response
 }

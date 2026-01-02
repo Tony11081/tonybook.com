@@ -148,6 +148,9 @@ export function BlogListClient({
     {
       getNextPageParam: (lastPage) =>
         lastPage.hasMore ? lastPage.page + 1 : undefined,
+      staleTime: 60000,
+      refetchOnMount: !isInitialQuery,
+      refetchOnWindowFocus: false,
       initialData: isInitialQuery
         ? {
             pages: [

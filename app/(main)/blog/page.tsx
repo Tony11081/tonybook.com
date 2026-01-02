@@ -36,8 +36,6 @@ export default async function BlogPage({
   const reading = typeof searchParams?.reading === 'string' ? searchParams.reading : ''
   const sort = typeof searchParams?.sort === 'string' ? searchParams.sort : 'latest'
 
-  const categories = await getCategories()
-
   const params = new URLSearchParams({
     page: '0',
     limit: '10',
@@ -47,18 +45,23 @@ export default async function BlogPage({
   if (reading) params.set('reading', reading)
   if (sort) params.set('sort', sort)
 
-  const res = await fetch(url(`/api/posts?${params.toString()}`).href, {
-    next: { revalidate: 60 },
-  })
-  const data = (await res.json()) as {
-    posts: Array<
-      Post & {
-        views: number
-        commentCount: number
-      }
-    >
-    total: number
-  }
+  const [categories, data] = await Promise.all([
+    getCategories(),
+    fetch(url(`/api/posts?${params.toString()}`).href, {
+      next: { revalidate: 60 },
+    }).then(
+      async (res) =>
+        (await res.json()) as {
+          posts: Array<
+            Post & {
+              views: number
+              commentCount: number
+            }
+          >
+          total: number
+        }
+    ),
+  ])
 
   return (
     <Container className="mt-16 sm:mt-24">
