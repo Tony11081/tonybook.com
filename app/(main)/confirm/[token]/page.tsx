@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
-import { emailConfig } from '~/config/email'
 import { Container } from '~/components/ui/Container'
+import { emailConfig } from '~/config/email'
 import { db } from '~/db'
 import { conversionEvents, emailQueue, subscribers } from '~/db/schema'
 import WelcomeSequenceEmail from '~/emails/WelcomeSequence'

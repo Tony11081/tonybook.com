@@ -6,8 +6,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import {
-  DashboardIcon,
   ClipboardDataIcon,
+  DashboardIcon,
   HomeIcon,
   NewCommentIcon,
   SubscriberIcon,

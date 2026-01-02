@@ -26,12 +26,12 @@ import { prettifyNumber } from '~/lib/math'
 import { type PostDetail } from '~/sanity/schemas/post'
 
 import { BlogPostCTA } from './BlogPostCTA'
+import { BlogPostCard } from './BlogPostCard'
 import { BlogPostLeadMagnet } from './BlogPostLeadMagnet'
 import { BlogPostMobileToc } from './BlogPostMobileToc'
 import { BlogPostNextSteps } from './BlogPostNextSteps'
 import { BlogPostReadingControls } from './BlogPostReadingControls'
 import { BlogPostReadingProgress } from './BlogPostReadingProgress'
-import { BlogPostCard } from './BlogPostCard'
 import { BlogPostTableOfContents } from './BlogPostTableOfContents'
 
 export function BlogPostPage({

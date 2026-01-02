@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { XIcon } from '~/assets'
 import { Newsletter } from '~/app/(main)/Newsletter'
+import { XIcon } from '~/assets'
 import { TrackLink } from '~/components/TrackLink'
 
 const STORAGE_KEY = 'lead-magnet-dismissed-until'

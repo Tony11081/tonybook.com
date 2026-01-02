@@ -5,9 +5,9 @@ import React from 'react'
 import { Button } from '~/components/ui/Button'
 import { Dialog } from '~/components/ui/Dialog'
 
-import { BlogPostTableOfContents } from './BlogPostTableOfContents'
+import { BlogPostTableOfContents, type TocNode } from './BlogPostTableOfContents'
 
-export function BlogPostMobileToc({ headings }: { headings: any[] }) {
+export function BlogPostMobileToc({ headings }: { headings: TocNode[] }) {
   const [open, setOpen] = React.useState(false)
 
   if (!headings || headings.length === 0) {

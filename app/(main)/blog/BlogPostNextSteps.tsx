@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+
 import { prettifyNumber } from '~/lib/math'
 import { type Post, type PostDetail } from '~/sanity/schemas/post'
 

@@ -14,10 +14,10 @@ import {
 import { commentLikes, comments } from '~/db/schema'
 import NewReplyCommentEmail from '~/emails/NewReplyComment'
 import { env } from '~/env.mjs'
-import { getIP } from '~/lib/ip'
-import { createNotification } from '~/lib/notifications'
 import { url } from '~/lib'
+import { getIP } from '~/lib/ip'
 import { resend } from '~/lib/mail'
+import { createNotification } from '~/lib/notifications'
 import { redis } from '~/lib/redis'
 import { client } from '~/sanity/lib/client'
 

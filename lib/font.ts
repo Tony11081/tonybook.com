@@ -12,6 +12,7 @@ const displayFont = Newsreader({
   weight: ['400', '600', '700'],
   variable: '--font-display',
   display: 'swap',
+  adjustFontFallback: false,
 })
 
 const monoFont = JetBrains_Mono({
@@ -21,4 +22,4 @@ const monoFont = JetBrains_Mono({
   display: 'swap',
 })
 
-export { sansFont, displayFont, monoFont }
+export { displayFont, monoFont, sansFont }

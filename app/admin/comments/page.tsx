@@ -5,8 +5,8 @@ import React from 'react'
 import { db } from '~/db'
 import { CommentHashids } from '~/db/dto/comment.dto'
 import { comments } from '~/db/schema'
-import { client } from '~/sanity/lib/client'
 import { truncate } from '~/lib/string'
+import { client } from '~/sanity/lib/client'
 
 import { CommentsAdminTable } from './CommentsAdminTable'
 

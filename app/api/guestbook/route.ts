@@ -10,10 +10,10 @@ import { fetchGuestbookMessages } from '~/db/queries/guestbook'
 import { guestbook } from '~/db/schema'
 import NewGuestbookEmail from '~/emails/NewGuestbook'
 import { env } from '~/env.mjs'
-import { getIP } from '~/lib/ip'
-import { createNotification } from '~/lib/notifications'
 import { url } from '~/lib'
+import { getIP } from '~/lib/ip'
 import { resend } from '~/lib/mail'
+import { createNotification } from '~/lib/notifications'
 import { ratelimit, redis } from '~/lib/redis'
 
 function getKey(id?: string) {

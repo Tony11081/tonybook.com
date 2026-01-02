@@ -92,6 +92,13 @@ export default async function BlogPage({
     }
   }
 
+  const source =
+    typeof searchParams?.from === 'string'
+      ? searchParams.from
+      : typeof searchParams?.utm_source === 'string'
+      ? searchParams.utm_source
+      : undefined
+
   return (
     <BlogPostPage
       post={post}
@@ -104,9 +111,3 @@ export default async function BlogPage({
 }
 
 export const revalidate = 60
-  const source =
-    typeof searchParams?.from === 'string'
-      ? searchParams.from
-      : typeof searchParams?.utm_source === 'string'
-      ? searchParams.utm_source
-      : undefined

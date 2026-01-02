@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 
 import { TrackLink } from '~/components/TrackLink'
 import { Container } from '~/components/ui/Container'
-import { getProjectBySlug } from '~/sanity/queries'
 import { urlForImage } from '~/sanity/lib/image'
+import { getProjectBySlug } from '~/sanity/queries'
 
 export default async function CaseStudyDetailPage({
   params,

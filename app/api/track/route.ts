@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { conversionEvents } from '~/db/schema'
 import { db } from '~/db'
+import { conversionEvents } from '~/db/schema'
 import { getIP } from '~/lib/ip'
 
 const TrackSchema = z.object({

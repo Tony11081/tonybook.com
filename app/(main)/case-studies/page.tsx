@@ -2,8 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '~/components/ui/Container'
-import { getSettings } from '~/sanity/queries'
 import { urlForImage } from '~/sanity/lib/image'
+import { getSettings } from '~/sanity/queries'
 
 export const metadata = {
   title: '案例拆解',

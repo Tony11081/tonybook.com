@@ -4,20 +4,20 @@ import { clsxm } from '@zolplay/utils'
 import { motion, useScroll, type Variants } from 'framer-motion'
 import React from 'react'
 
-interface HeadingNode {
+export interface TocHeadingNode {
   _type: 'span'
   text: string
   _key: string
 }
 
-interface Node {
+export interface TocNode {
   _type: 'block'
   style: 'h1' | 'h2' | 'h3' | 'h4'
   _key: string
-  children?: HeadingNode[]
+  children?: TocHeadingNode[]
 }
 
-const parseOutline = (nodes: Node[]) => {
+const parseOutline = (nodes: TocNode[]) => {
   return nodes
     .filter((node) => node._type === 'block' && node.style.startsWith('h'))
     .map((node) => {
@@ -63,7 +63,7 @@ export function BlogPostTableOfContents({
   headings,
   onNavigate,
 }: {
-  headings: Node[]
+  headings: TocNode[]
   onNavigate?: () => void
 }) {
   const outline = parseOutline(headings)

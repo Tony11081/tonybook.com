@@ -4,6 +4,7 @@ import { SocialLink } from '~/components/links/SocialLink'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
 import { getCategories } from '~/sanity/queries'
+import { type Post } from '~/sanity/schemas/post'
 
 import { BlogListClient } from './BlogListClient'
 import { FeaturedPosts } from './FeaturedPosts'
@@ -51,7 +52,7 @@ export default async function BlogPage({
   })
   const data = (await res.json()) as {
     posts: Array<
-      import('~/sanity/schemas/post').Post & {
+      Post & {
         views: number
         commentCount: number
       }
