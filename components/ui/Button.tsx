@@ -13,51 +13,71 @@ type SharedProps = {
   variant?: keyof typeof variantStyles
   className?: string
   asChild?: boolean
-  children?: React.ReactNode
 }
 type ButtonLinkProps = SharedProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement> & {
     href: string
+    asChild?: false
   }
 type ButtonBaseProps = SharedProps &
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     href?: undefined
+    asChild?: false
   }
-type ButtonProps = ButtonLinkProps | ButtonBaseProps
-export function Button({
-  variant = 'primary',
-  className,
-  href,
-  asChild,
-  children,
-  ...props
-}: ButtonProps) {
+type ButtonAsChildProps = SharedProps & {
+  asChild: true
+  children: React.ReactElement<{ className?: string }>
+}
+type ButtonProps = ButtonLinkProps | ButtonBaseProps | ButtonAsChildProps
+
+const isLinkProps = (props: ButtonProps): props is ButtonLinkProps =>
+  typeof (props as ButtonLinkProps).href === 'string'
+export function Button(props: ButtonProps) {
+  const variant = props.variant ?? 'primary'
   const cn = clsxm(
     'inline-flex items-center gap-2 justify-center rounded-lg py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
     variantStyles[variant],
-    className
+    props.className
   )
 
-  if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement<Record<string, unknown>>
-    const childClassName =
-      typeof child.props.className === 'string' ? child.props.className : undefined
-    const mergedProps: Record<string, unknown> = {
-      ...(href ? { href } : {}),
-      ...props,
+  if (props.asChild) {
+    const childClassName = props.children.props.className
+    return React.cloneElement(props.children, {
       className: clsxm(cn, childClassName),
-    }
-    return React.cloneElement(child, {
-      ...mergedProps,
     })
   }
 
-  return href ? (
-    <Link href={href} className={cn} {...props}>
-      {children}
-    </Link>
-  ) : (
-    <button className={cn} {...props}>
+  if (isLinkProps(props)) {
+    const {
+      href,
+      children,
+      variant: variantProp,
+      className: classNameProp,
+      asChild: asChildProp,
+      ...rest
+    } = props
+    void variantProp
+    void classNameProp
+    void asChildProp
+    return (
+      <Link href={href} className={cn} {...rest}>
+        {children}
+      </Link>
+    )
+  }
+
+  const {
+    children,
+    variant: variantProp,
+    className: classNameProp,
+    asChild: asChildProp,
+    ...rest
+  } = props as ButtonBaseProps
+  void variantProp
+  void classNameProp
+  void asChildProp
+  return (
+    <button className={cn} {...rest}>
       {children}
     </button>
   )
