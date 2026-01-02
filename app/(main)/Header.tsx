@@ -157,7 +157,7 @@ export function Header() {
     <>
       <motion.header
         className={clsxm(
-          'pointer-events-none relative z-50 mb-[var(--header-mb,0px)] flex flex-col',
+          'pointer-events-auto relative z-50 mb-[var(--header-mb,0px)] flex flex-col',
           isHomePage
             ? 'h-[var(--header-height,180px)]'
             : 'h-[var(--header-height,64px)]'

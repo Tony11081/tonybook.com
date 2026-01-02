@@ -377,6 +377,32 @@ export const getSettings = () =>
       | null
   }>(getSettingsQuery())
 
+export const getHomeSettingsQuery = () =>
+  groq`
+  *[_type == "settings"][0] {
+    "heroPhotos": heroPhotos[].asset->url,
+    "resume": resume[]{
+      company,
+      title,
+      start,
+      end,
+      "logo": logo.asset->url
+    }
+  }`
+export const getHomeSettings = () =>
+  client.fetch<{
+    heroPhotos?: string[] | null
+    resume?:
+      | {
+          company: string
+          title: string
+          logo: string
+          start: string
+          end?: string
+        }[]
+      | null
+  }>(getHomeSettingsQuery())
+
 export const getProjectBySlugQuery = () =>
   groq`
   *[_type == "project" && slug.current == $slug][0] {

@@ -7,10 +7,10 @@ import { Photos } from '~/app/(main)/Photos'
 import { Resume } from '~/app/(main)/Resume'
 import { PencilSwooshIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
-import { getSettings } from '~/sanity/queries'
+import { getHomeSettings } from '~/sanity/queries'
 
 export default async function BlogHomePage() {
-  const settings = await getSettings()
+  const settings = await getHomeSettings()
 
   return (
     <>
