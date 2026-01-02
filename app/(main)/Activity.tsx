@@ -67,9 +67,6 @@ export function Activity() {
               height={32}
               src={`/apps/${app}.png`}
               alt={app}
-              priority
-              fetchPriority="high"
-              unoptimized
               className="pointer-events-none select-none"
             />
           </div>

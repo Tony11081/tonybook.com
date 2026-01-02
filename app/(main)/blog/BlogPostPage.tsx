@@ -98,7 +98,7 @@ export function BlogPostPage({
                     src={post.mainImage.asset.url}
                     alt=""
                     className="select-none"
-                    unoptimized
+                    sizes="(min-width: 768px) 50rem, 100vw"
                     fill
                     aria-hidden={true}
                   />
@@ -109,7 +109,8 @@ export function BlogPostPage({
                   className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 md:rounded-3xl"
                   placeholder="blur"
                   blurDataURL={post.mainImage.asset.lqip}
-                  unoptimized
+                  sizes="(min-width: 768px) 50rem, 100vw"
+                  priority
                   fill
                 />
               </motion.div>

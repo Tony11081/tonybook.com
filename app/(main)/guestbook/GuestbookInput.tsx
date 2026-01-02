@@ -184,7 +184,6 @@ export function GuestbookInput() {
           width={40}
           height={40}
           className="h-8 w-8 select-none rounded-full md:h-10 md:w-10"
-          unoptimized
         />
       </div>
 

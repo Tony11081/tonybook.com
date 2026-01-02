@@ -221,7 +221,6 @@ function Root({ className, blockId }: CommentableProps) {
                 alt=""
                 width={20}
                 height={20}
-                unoptimized
                 className="pointer-events-none h-5 w-5 select-none rounded-full ring-2 ring-white dark:ring-zinc-800"
               />
             ))}
@@ -375,7 +374,6 @@ function Comment({
             className="h-6 w-6 select-none rounded-full"
             width={24}
             height={24}
-            unoptimized
           />
         </div>
         <div
@@ -587,7 +585,6 @@ function CommentTextarea({ isLoading, onSubmit }: CommentTextareaProps) {
           className="h-6 w-6 select-none rounded-full"
           width={24}
           height={24}
-          unoptimized
         />
       </div>
       <footer className="flex h-5 w-full items-center justify-between">

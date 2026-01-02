@@ -63,7 +63,6 @@ function Message({ message }: { message: GuestbookDto }) {
         width={40}
         height={40}
         className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-800"
-        unoptimized
       />
       <div className="-mt-1 flex min-w-0 flex-1 flex-col gap-2">
         <div className="flex flex-wrap items-center gap-2">

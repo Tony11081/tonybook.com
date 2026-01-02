@@ -21,7 +21,6 @@ export function BleedThroughImage({
         <Image
           width={dimensions.width}
           height={dimensions.height}
-          unoptimized
           aria-hidden={true}
           {...props}
           alt=""
@@ -30,7 +29,6 @@ export function BleedThroughImage({
       <Image
         width={dimensions.width}
         height={dimensions.height}
-        unoptimized
         placeholder={lqip ? 'blur' : 'empty'}
         blurDataURL={lqip}
         className={clsxm('relative z-20 rounded-xl md:rounded-3xl', className)}

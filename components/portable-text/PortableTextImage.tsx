@@ -61,13 +61,12 @@ export function PortableTextImage({
                     height={value.dimensions.height}
                     placeholder={value.lqip ? 'blur' : 'empty'}
                     blurDataURL={value.lqip}
+                    sizes="(min-width: 768px) 42rem, 100vw"
                     className={clsxm(
                       'relative z-20 cursor-zoom-in dark:brightness-75 dark:transition-[filter] dark:hover:brightness-100',
                       hasLabel ? 'rounded-xl' : 'rounded-xl md:rounded-3xl'
                     )}
                     alt={value.alt || ''}
-                    fetchPriority="high"
-                    unoptimized
                   />
                 </Dialog.Trigger>
               </motion.div>
@@ -113,9 +112,9 @@ export function PortableTextImage({
                           height={value.dimensions.height}
                           placeholder={value.lqip ? 'blur' : 'empty'}
                           blurDataURL={value.lqip}
+                          sizes="100vw"
                           className="mx-auto h-full overflow-hidden object-contain"
                           alt={value.alt || ''}
-                          unoptimized
                         />
                       </motion.div>
                     </div>

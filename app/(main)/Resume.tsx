@@ -28,7 +28,6 @@ export function Resume({ resume }: { resume: Resume[] }) {
                 className="h-8 w-8 rounded-full"
                 width={100}
                 height={100}
-                unoptimized
               />
             </div>
             <dl className="flex flex-auto flex-wrap gap-x-2">

@@ -47,7 +47,6 @@ export function ProjectCard({ project }: { project: Project }) {
           width={36}
           height={36}
           className="h-9 w-9 rounded-full"
-          unoptimized
         />
       </div>
       <h2 className="mt-6 text-base font-bold text-zinc-800 dark:text-zinc-100">
