@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { clsxm } from '@zolplay/utils'
 import Link from 'next/link'
+import React from 'react'
 
 const variantStyles = {
   primary:
@@ -16,12 +17,15 @@ type NativeLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement>
 type SharedProps = {
   variant?: keyof typeof variantStyles
   className?: string
+  asChild?: boolean
 }
 type ButtonProps = SharedProps & (NativeButtonProps | NativeLinkProps)
 export function Button({
   variant = 'primary',
   className,
   href,
+  asChild,
+  children,
   ...props
 }: ButtonProps) {
   const cn = clsxm(
@@ -30,9 +34,22 @@ export function Button({
     className
   )
 
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{ className?: string }>
+    return React.cloneElement(child, {
+      ...(href ? { href } : {}),
+      ...(props as any),
+      className: clsxm(cn, child.props.className),
+    })
+  }
+
   return href ? (
-    <Link href={href} className={cn} {...(props as any)} />
+    <Link href={href} className={cn} {...(props as any)}>
+      {children}
+    </Link>
   ) : (
-    <button className={cn} {...(props as any)} />
+    <button className={cn} {...(props as any)}>
+      {children}
+    </button>
   )
 }
