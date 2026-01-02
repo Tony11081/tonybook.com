@@ -3,7 +3,7 @@ import { desc, sql } from 'drizzle-orm'
 import React from 'react'
 
 import { db } from '~/db'
-import { CommentHashids } from '~/db/dto/comment.dto'
+import { CommentHashids, type CommentDto } from '~/db/dto/comment.dto'
 import { comments } from '~/db/schema'
 import { truncate } from '~/lib/string'
 import { client } from '~/sanity/lib/client'
@@ -49,16 +49,26 @@ export default async function AdminCommentsPage() {
   )
   const postMap = new Map(posts.map((post) => [post._id, post]))
 
-  const commentRows = latestComments.map((comment) => ({
-    ...comment,
-    id: CommentHashids.encode(comment.id),
-    body: {
-      ...(comment.body as { text?: string; blockId?: string }),
-      text: truncate((comment.body as { text?: string }).text ?? ''),
-    },
-    postTitle: postMap.get(comment.postId)?.title,
-    postSlug: postMap.get(comment.postId)?.slug,
-  }))
+  const commentRows: Array<
+    CommentDto & { postTitle?: string; postSlug?: string }
+  > = latestComments.map((comment) => {
+    const body = comment.body as { text?: string; blockId?: string } | null
+    const userInfo = (comment.userInfo ?? {}) as CommentDto['userInfo']
+    return {
+      ...comment,
+      id: CommentHashids.encode(comment.id),
+      parentId: comment.parentId
+        ? CommentHashids.encode(comment.parentId)
+        : null,
+      userInfo,
+      body: {
+        ...(body ?? {}),
+        text: truncate(body?.text ?? ''),
+      },
+      postTitle: postMap.get(comment.postId)?.title,
+      postSlug: postMap.get(comment.postId)?.slug,
+    }
+  })
 
   return (
     <>
