@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { clsxm } from '@zolplay/utils'
 import Link from 'next/link'
 import React from 'react'
@@ -10,16 +9,21 @@ const variantStyles = {
     'group rounded-full bg-gradient-to-b from-zinc-50/50 to-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20',
 }
 
-type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  href?: string
-}
-type NativeLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement>
 type SharedProps = {
   variant?: keyof typeof variantStyles
   className?: string
   asChild?: boolean
+  children?: React.ReactNode
 }
-type ButtonProps = SharedProps & (NativeButtonProps | NativeLinkProps)
+type ButtonLinkProps = SharedProps &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string
+  }
+type ButtonBaseProps = SharedProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    href?: undefined
+  }
+type ButtonProps = ButtonLinkProps | ButtonBaseProps
 export function Button({
   variant = 'primary',
   className,
@@ -35,20 +39,25 @@ export function Button({
   )
 
   if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement<{ className?: string }>
-    return React.cloneElement(child, {
+    const child = children as React.ReactElement<Record<string, unknown>>
+    const childClassName =
+      typeof child.props.className === 'string' ? child.props.className : undefined
+    const mergedProps: Record<string, unknown> = {
       ...(href ? { href } : {}),
-      ...(props as any),
-      className: clsxm(cn, child.props.className),
+      ...props,
+      className: clsxm(cn, childClassName),
+    }
+    return React.cloneElement(child, {
+      ...mergedProps,
     })
   }
 
   return href ? (
-    <Link href={href} className={cn} {...(props as any)}>
+    <Link href={href} className={cn} {...props}>
       {children}
     </Link>
   ) : (
-    <button className={cn} {...(props as any)}>
+    <button className={cn} {...props}>
       {children}
     </button>
   )
