@@ -31,5 +31,37 @@ export function TrackLink({
     [event, source, metadata, onClick]
   )
 
+  const hrefValue = props.href
+  const isExternal =
+    typeof hrefValue === 'string' &&
+    /^(https?:|mailto:|tel:)/.test(hrefValue)
+  const isDownload = props.download !== undefined && props.download !== false
+
+  if (isExternal || (isDownload && typeof hrefValue === 'string')) {
+    const {
+      href,
+      prefetch,
+      replace,
+      scroll,
+      shallow,
+      locale,
+      legacyBehavior,
+      passHref,
+      ...anchorProps
+    } = props
+
+    void prefetch
+    void replace
+    void scroll
+    void shallow
+    void locale
+    void legacyBehavior
+    void passHref
+
+    return (
+      <a {...anchorProps} href={href as string} onClick={handleClick} />
+    )
+  }
+
   return <Link {...props} onClick={handleClick} />
 }
